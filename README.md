@@ -10,7 +10,7 @@ The "start" script runs our server normally
 
 ## dev
 
-"dev" runs it via nodemon, which watches the src/\/_\/_ folder for any changes, restarting the server whenever something is updated
+"dev" runs it via nodemon, which watches the src/\*\* folder for any changes, restarting the server whenever something is updated
 
 ## debug
 

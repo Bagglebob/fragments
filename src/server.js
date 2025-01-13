@@ -20,5 +20,11 @@ const server = stoppable(
   })
 );
 
+// Log all environment variables if LOG_LEVEL is set to 'debug'
+// if (process.env.LOG_LEVEL === 'debug') {
+//   process.env.HELLO = 'hello';
+//   console.log('Environment Variables:', process.env);
+// }
+
 // Export our server instance so other parts of our code can access it if necessary.
 module.exports = server;
