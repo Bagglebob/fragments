@@ -18,6 +18,8 @@ const app = express();
 const passport = require('passport');
 const authenticate = require('./auth');
 
+const { createErrorResponse } = require('./response');
+
 // Use pino logging middleware
 app.use(pino);
 
@@ -49,7 +51,7 @@ app.use((req, res) => {
 });
 
 // Add error-handling middleware to deal with anything else
-// eslint-disable-next-line no-unused-vars
+// updated default error handler to use createErrorResponse()
 app.use((err, req, res, next) => {
   // We may already have an error response we can use, but if not,
   // use a generic `500` server error and message.
@@ -60,14 +62,7 @@ app.use((err, req, res, next) => {
   if (status > 499) {
     logger.error({ err }, `Error processing request`);
   }
-
-  res.status(status).json({
-    status: 'error',
-    error: {
-      message,
-      code: status,
-    },
-  });
+  res.status(status).json(createErrorResponse(status, message));
 });
 
 // Export our `app` so we can access it in server.js
