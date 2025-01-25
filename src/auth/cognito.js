@@ -1,4 +1,4 @@
-// src/auth.js
+// src/auth/cognito.js
 
 // Configure a JWT token strategy for Passport based on
 // Identity Token provided by Cognito. The token will be
@@ -8,7 +8,14 @@ const passport = require('passport');
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 
-const logger = require('./logger');
+const logger = require('../logger');
+
+// if POOL_ID AND CLIENT_ID are missing, throw error
+if (!(process.env.AWS_COGNITO_POOL_ID && process.env.AWS_COGNITO_CLIENT_ID)) {
+  throw new Error('missing expected env vars: AWS_COGNITO_POOL_ID and AWS_COGNITO_CLIENT_ID');
+}
+// Log that we're using Cognito
+logger.info('Using AWS Cognito for auth');
 
 // Create a Cognito JWT Verifier, which will confirm that any JWT we
 // get from a user is valid and something we can trust. See:
@@ -20,9 +27,6 @@ const jwtVerifier = CognitoJwtVerifier.create({
   // We expect an Identity Token (vs. Access Token)
   tokenUse: 'id',
 });
-
-// Later we'll use other auth configurations, so it's important to log what's happening
-logger.info('Configured to use AWS Cognito for Authorization');
 
 // At startup, download and cache the public keys (JWKS) we need in order to
 // verify our Cognito JWTs, see https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-key-sets
