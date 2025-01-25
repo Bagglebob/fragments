@@ -52,7 +52,7 @@ app.use((req, res) => {
 
 // Add error-handling middleware to deal with anything else
 // updated default error handler to use createErrorResponse()
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // We may already have an error response we can use, but if not,
   // use a generic `500` server error and message.
   const status = err.status || 500;
