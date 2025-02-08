@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const app = require('../../src/app');
+const hash = require('../../src/hash');
 // const logger = require('../../src/logger');
 
 describe('POST /v1/fragments', () => {
@@ -22,7 +23,7 @@ describe('POST /v1/fragments', () => {
       .expect(401));
 
   // Using a valid username/password pair should give a success result with a .fragments array
-  test('POST: authenticated users can post a fragments array', async () => {
+  test('POST: authenticated users can post a fragments array (includes hashed email test)', async () => {
     const expectedData = Buffer.from('This is a plain text fragment').toJSON();
     const res = await request(app)
       .post('/v1/fragments')
@@ -36,7 +37,7 @@ describe('POST /v1/fragments', () => {
     expect(res.body).toHaveProperty('created');
     expect(res.body).toHaveProperty('updated');
     expect(res.body).toHaveProperty('type', 'text/plain');
-    expect(res.body).toHaveProperty('ownerId', 'user1@email.com');
+    expect(res.body).toHaveProperty('ownerId', hash('user1@email.com'));
     expect(res.body).toHaveProperty('size');
     expect(res.body).toHaveProperty('data', expectedData);
     expect(res.header).toHaveProperty('location');
