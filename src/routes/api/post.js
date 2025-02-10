@@ -49,7 +49,13 @@ module.exports = async (req, res) => {
       .status(201)
       .setHeader('Location', location)
       // .send(fragment);
-      .json(createSuccessResponse(fragment));
+      .json(
+        createSuccessResponse({
+          // status: 'ok',
+          // TODO: change me
+          fragment: fragment,
+        })
+      );
   } catch (err) {
     console.error('Error processing POST /fragments:', err);
     res.status(500).json(createErrorResponse(500, 'Internal server error'));

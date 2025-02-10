@@ -24,7 +24,6 @@ describe('POST /v1/fragments', () => {
 
   // Using a valid username/password pair should give a success result with a .fragments array
   test('POST: authenticated users can post a fragments array (includes hashed email test)', async () => {
-    const expectedData = Buffer.from('This is a plain text fragment').toJSON();
     const res = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
@@ -33,13 +32,12 @@ describe('POST /v1/fragments', () => {
     // logger.debug(res);
     expect(res.status).toBe(201);
     expect(res.body.status).toBe('ok');
-    expect(res.body).toHaveProperty('id');
-    expect(res.body).toHaveProperty('created');
-    expect(res.body).toHaveProperty('updated');
-    expect(res.body).toHaveProperty('type', 'text/plain');
-    expect(res.body).toHaveProperty('ownerId', hash('user1@email.com'));
-    expect(res.body).toHaveProperty('size');
-    expect(res.body).toHaveProperty('data', expectedData);
+    expect(res.body.fragment).toHaveProperty('id');
+    expect(res.body.fragment).toHaveProperty('created');
+    expect(res.body.fragment).toHaveProperty('updated');
+    expect(res.body.fragment).toHaveProperty('type', 'text/plain');
+    expect(res.body.fragment).toHaveProperty('ownerId', hash('user1@email.com'));
+    expect(res.body.fragment).toHaveProperty('size');
     expect(res.header).toHaveProperty('location');
   });
 });

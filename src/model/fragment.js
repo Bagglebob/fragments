@@ -57,9 +57,10 @@ class Fragment {
         const f = new Fragment(fragment);
 
         // Convert the data field back to a Buffer if necessary
-        if (fragment.data && fragment.data.type === 'Buffer') {
-          f.data = Buffer.from(fragment.data.data);
-        }
+        // !!!Commented code BELOW attached the data to the Fragment object!!!
+        // if (fragment.data && fragment.data.type === 'Buffer') {
+        //   f.data = Buffer.from(fragment.data.data);
+        // }
 
         return f;
       });
@@ -80,7 +81,8 @@ class Fragment {
     // TODO
     // TIP: make sure you properly re-create a full Fragment instance after getting from db.
     let fragment = new Fragment(await readFragment(ownerId, id));
-    fragment.data = await readFragmentData(ownerId, id);
+    // !!!Commented code BELOW attached the data to the Fragment object!!!
+    // fragment.data = await readFragmentData(ownerId, id);
     return Promise.resolve(fragment);
   }
 
@@ -127,7 +129,7 @@ class Fragment {
     // update data for fragment
     await writeFragmentData(this.ownerId, this.id, bufferData);
     // update data for "this" instance
-    this.data = bufferData;
+    // this.data = bufferData;
     // update the metadata for "this" instance
     this.updated = new Date().toISOString();
     // update the size for "this" instance

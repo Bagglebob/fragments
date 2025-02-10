@@ -20,5 +20,53 @@ describe('GET /v1/fragments', () => {
     expect(Array.isArray(res.body.fragments)).toBe(true);
   });
 
-  // TODO: we'll need to add tests to check the contents of the fragments array later
+  test("POST fragment, and GET it by calling get route. Returns a list of the authenticated user's existing fragment IDs", async () => {
+    const postRes = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/plain') // send plain text
+      .send('This is a plain text fragment'); // data
+    const res = await request(app).get('/v1/fragments').auth('user1@email.com', 'password1');
+    // console.log('POST result, expand = false', postRes.body);
+    // console.log('GET result, expand = false', res.body);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragments).toContainEqual(postRes.body.fragment.id);
+  });
+
+  test("POST fragment, and GET it by calling get /?expand=1 route. Returns a list of the user's full fragments", async () => {
+    const postRes = await request(app)
+      .post('/v1/fragments/')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/plain') // send plain text
+      .send('This is a plain text fragment2'); // data
+    // console.log('POST RESULT expand = true::', postRes.body);
+    const res = await request(app)
+      .get(`/v1/fragments/?expand=1`)
+      .auth('user1@email.com', 'password1');
+    // console.log('GET RESULT:: expand = true', res.body);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragments[1].id).toEqual(postRes.body.fragment.id);
+    expect(res.body.fragments[1].type).toEqual(postRes.body.fragment.type);
+    expect(res.body.fragments[1].ownerId).toEqual(postRes.body.fragment.ownerId);
+    expect(res.body.fragments[1].size).toEqual(postRes.body.fragment.size);
+  });
+
+  test('Get Fragment DATA by ID | /:id route', async () => {
+    const postRes = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/plain') // send plain text
+      .send('This is a plain text fragment'); // data
+    console.log('POST RESULT:: /:id', postRes.body);
+    console.log('ID', postRes.body.fragment.id);
+    const res = await request(app)
+      .get(`/v1/fragments/${postRes.body.fragment.id}`)
+      .auth('user1@email.com', 'password1');
+    console.log('GET RESULT:: /:id', res.text);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toEqual('This is a plain text fragment');
+  });
 });

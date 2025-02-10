@@ -175,6 +175,8 @@ describe('Fragment class', () => {
       expect(await Fragment.byUser('1234')).toEqual([]);
     });
 
+    // Gets an authenticated user's fragment data (i.e., raw binary data)
+    // with the given id
     test('a fragment can be created and save() stores a fragment for the user', async () => {
       const data = Buffer.from('hello');
       const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
@@ -226,7 +228,8 @@ describe('Fragment class', () => {
       const fragment = new Fragment({ ownerId, type: 'text/plain', size: 0 });
       await fragment.save();
       await fragment.setData(data);
-
+      // console.log('Fragment1', fragment);
+      // console.log('Fragment2', await Fragment.byUser(ownerId, true));
       expect(await Fragment.byUser(ownerId, true)).toEqual([fragment]);
     });
 
