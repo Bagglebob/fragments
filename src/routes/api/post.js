@@ -57,7 +57,8 @@ module.exports = async (req, res) => {
         })
       );
   } catch (err) {
-    console.error('Error processing POST /fragments:', err);
+    logger.error({ err }, `Error processing POST /fragments`);
+    // console.error('Error processing POST /fragments:', err);
     res.status(500).json(createErrorResponse(500, 'Internal server error'));
   }
 };
