@@ -36,3 +36,19 @@ Installed Pino Pretty using "npm install --save pino pino-pretty pino-http"
 Allows for Structured Logging
 
 Installed middleware: cors, express, helmet, compression
+
+# for sending files use format
+
+`pscp -i "D:/DPS 955/dps955-lab4-key-pair.ppk" fragments-0.0.1.tgz ec2-user@3.95.182.209:/home/ec2-user/`
+
+`ssh -i "D:/DPS 955/dps955-lab4-key-pair.ppk" ec2-user@3.95.182.209`
+
+`pscp -i "D:/DPS 955/dps955-lab4-key-pair.ppk" .env ec2-user@3.95.182.209:/home/ec2-user/package/.env`
+
+# Things to note:
+
+`docker run --rm --name fragments --env-file .env -p 8080:8080 fragments:latest`
+
+- The -p 8080:8080 means 8080 on the host (left-hand) and 8080 in the container (right-hand). If you wanted to bind port 8080 in the container to port 5000 in the host, you'd do -p 5000:8080
+
+`tar -xvzf fragments-0.0.1.tgz` to unpack tarball
