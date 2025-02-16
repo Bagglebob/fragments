@@ -1,0 +1,15 @@
+.github/
+.vscode/
+coverage/
+node_modules/
+tests/
+# Lab 5 needs .htpasswd
+!tests/.htpasswd
+.env
+eslint.config.mjs
+.git/
+.gitignore
+.prettier*
+jest*
+# no tarball hehe
+*.tgz
