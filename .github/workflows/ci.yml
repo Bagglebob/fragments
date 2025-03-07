@@ -85,3 +85,45 @@ jobs:
         # 2. Use `install-ci-test` to do it in a single command, see https://docs.npmjs.com/cli/v8/commands/npm-install-ci-test
         # run: npm install-ci-test
         run: npm install-ci-test
+
+  # docker-hub job will depend on the other three jobs succeeding
+  # We do that by adding a "needs" property to our job
+  docker-hub:
+    name: Build and Push to DockerHub
+    needs: [lint, dockerfile-lint, unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+      # Set up buildx for optimal Docker Builds, see:
+      # https://github.com/docker/setup-buildx-action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login to Docker Hub using GitHub secrets, see:
+      # https://github.com/docker/login-action
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # to build and push Docker Image to Docker Hub
+      # define multiple tags for this image:
+      # 1. one, will indicate the git commit SHA that we are building
+      # 2. two, will indicate the current commit on the main branch
+      # 3. three, will indicate that this is the latest image built for this repo
+      # Build and Push an Image to Docker Hub
+      - name: Build and Push
+        env:
+          # Define an Environment Variable with our Docker Hub Repo
+          DOCKERHUB_REPO: Bagglebob/fragments
+          # Define an Environment Variable with the current git commit's
+          SHA_TAG: sha-${{ github.sha }}
+        # uses use Docker's build-push action
+        # https://github.com/docker/build-push-action
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          # tag 1 -> Bagglebob/fragments:sha-7d821bd14e0d6c381dc57a5369ae1a3a9220664f
+          # tag 2 -> Bagglebob/fragments:main
+          # tag 3 -> Bagglebob/fragments:latest
+          tags: ${{ env.DOCKERHUB_REPO }}:${{ env.SHA_TAG }}, ${{ env.DOCKERHUB_REPO }}:main, ${{ env.DOCKERHUB_REPO }}:latest
