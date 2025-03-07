@@ -42,10 +42,29 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+  # adding dockerfile-lint job to lint Dockerfile
+  # uses hadolint to ensure best practices
+  dockerfile-lint:
+    name: Dockerfile Lint
+    runs-on: ubuntu-latest
+    steps:
+      # the checkout step essentially downloads or "checks out" the latest version
+      # of your code from the GitHub repository into the working directory of
+      # the CI job
+      # https://github.com/marketplace/actions/checkout @v4 uses latest patch version
+      - uses: actions/checkout@v4
+      # https://github.com/marketplace/actions/hadolint-action to find the github action
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
+      # the checkout step essentially downloads or "checks out" the latest version
+      # of your code from the GitHub repository into the working directory of
+      # the CI job
       - name: Check out code
         uses: actions/checkout@v4
 
