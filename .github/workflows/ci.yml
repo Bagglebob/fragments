@@ -115,7 +115,7 @@ jobs:
       - name: Build and Push
         env:
           # Define an Environment Variable with our Docker Hub Repo
-          DOCKERHUB_REPO: Bagglebob/fragments
+          DOCKERHUB_REPO: bagglebob/fragments
           # Define an Environment Variable with the current git commit's
           SHA_TAG: sha-${{ github.sha }}
         # uses use Docker's build-push action
@@ -123,7 +123,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          # tag 1 -> Bagglebob/fragments:sha-7d821bd14e0d6c381dc57a5369ae1a3a9220664f
-          # tag 2 -> Bagglebob/fragments:main
-          # tag 3 -> Bagglebob/fragments:latest
+          # tag 1 -> bagglebob/fragments:sha-7d821bd14e0d6c381dc57a5369ae1a3a9220664f
+          # tag 2 -> bagglebob/fragments:main
+          # tag 3 -> bagglebob/fragments:latest
           tags: ${{ env.DOCKERHUB_REPO }}:${{ env.SHA_TAG }}, ${{ env.DOCKERHUB_REPO }}:main, ${{ env.DOCKERHUB_REPO }}:latest
