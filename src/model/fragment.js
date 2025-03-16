@@ -176,7 +176,8 @@ class Fragment {
   static isSupportedType(value) {
     // TODO
     const { type } = contentType.parse(value);
-    return type === 'text/plain';
+    const re = /^text\/[a-zA-Z]+$/;
+    return re.test(type) || type === 'application/json';
   }
 }
 

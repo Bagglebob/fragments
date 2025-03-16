@@ -33,8 +33,8 @@ app.use(cors());
 app.use(compression());
 
 // **Add middleware to parse incoming plain text bodies**
-app.use(express.text());
 app.use(express.json());
+app.use(express.text());
 
 // Set up our passport authentication middleware
 passport.use(authenticate.strategy());

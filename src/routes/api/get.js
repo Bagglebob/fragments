@@ -20,6 +20,6 @@ module.exports = async (req, res) => {
       })
     );
   } catch (err) {
-    createErrorResponse(404, err);
+    res.status(200).json(createErrorResponse(404, err));
   }
 };

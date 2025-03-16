@@ -29,15 +29,16 @@ describe('POST /v1/fragments', () => {
       .auth('user1@email.com', 'password1')
       .set('Content-Type', 'text/plain') // send plain text
       .send('This is a plain text fragment'); // data
-    // logger.debug(res);
+    const resBody = JSON.parse(res.text);
+
     expect(res.status).toBe(201);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragment).toHaveProperty('id');
-    expect(res.body.fragment).toHaveProperty('created');
-    expect(res.body.fragment).toHaveProperty('updated');
-    expect(res.body.fragment).toHaveProperty('type', 'text/plain');
-    expect(res.body.fragment).toHaveProperty('ownerId', hash('user1@email.com'));
-    expect(res.body.fragment).toHaveProperty('size');
+    expect(resBody.status).toBe('ok');
+    expect(resBody.fragment).toHaveProperty('id');
+    expect(resBody.fragment).toHaveProperty('created');
+    expect(resBody.fragment).toHaveProperty('updated');
+    expect(resBody.fragment).toHaveProperty('type', 'text/plain');
+    expect(resBody.fragment).toHaveProperty('ownerId', hash('user1@email.com'));
+    expect(resBody.fragment).toHaveProperty('size');
     expect(res.header).toHaveProperty('location');
   });
 });
