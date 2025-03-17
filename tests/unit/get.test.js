@@ -75,5 +75,7 @@ describe('GET /v1/fragments', () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.text).toEqual('This is a plain text fragment');
+    // Verify Content-Type header
+    expect(res.headers['content-type']).toBe('text/plain; charset=utf-8');
   });
 });
