@@ -8,6 +8,8 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
 module.exports = async (req, res) => {
   // Load environment variables for API_URL
   logger.info('POST::Received request at POST /v1/fragments');
+  logger.info(`DEBUG: req.body type=${typeof req.body}, value=${JSON.stringify(req.body)}`);
+
   try {
     const API_URL = process.env.API_URL || req.headers.host;
 
@@ -27,7 +29,12 @@ module.exports = async (req, res) => {
     if (type === 'application/json') {
       fragmentData = req.body; // Store as an object, don't stringify
     } else {
-      fragmentData = Buffer.from(req.body);
+      if (Buffer.isBuffer(req.body)) {
+        fragmentData = req.body;
+      } else {
+        if (Object.keys(req.body).length !== 0)
+          fragmentData = Buffer.from(req.body);
+      }
     }
 
     // calculate the size of the fragmentText
@@ -68,7 +75,7 @@ module.exports = async (req, res) => {
         })
       );
   } catch (err) {
-    logger.warn({ err }, `Error processing POST /fragments`);
+    logger.error({ err }, `Error processing POST /fragments`);
     // console.error('Error processing POST /fragments:', err);
     res.status(500).json(createErrorResponse(500, 'Internal server error'));
   }

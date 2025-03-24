@@ -3,7 +3,7 @@
 // const { createSuccessResponse, createErrorResponse } = require('../../response');
 const { createErrorResponse } = require('../../response');
 
-// const { logger } = require('../../logger');
+const logger = require('../../logger');
 const { Fragment } = require('../../model/fragment');
 /**
  * Get a list of fragments for the current user
@@ -27,12 +27,14 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', fragment.type);
     res.setHeader('Content-Length', Buffer.byteLength(fragment.data));
     res.setHeader('Location', location);
+    logger.info("IN GET FRAG BY ID ROUTE")
+    logger.info(res.getHeader('Content-Type'));
     const re = /^text\/[a-zA-Z]+$/;
     re.test(fragment.type)
       ? res.status(200).send(fragment.data.toString())
       : // needs to parse because it is a buffer, which is converted to a string,
-        // which then needs to be converted to a json object
-        res.status(200).json(JSON.parse(fragment.data.toString()));
+      // which then needs to be converted to a json object
+      res.status(200).json(JSON.parse(fragment.data.toString()));
   } catch (err) {
     res.status(404).json(createErrorResponse(404, err));
   }

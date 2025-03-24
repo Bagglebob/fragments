@@ -52,3 +52,5 @@ Installed middleware: cors, express, helmet, compression
 - The -p 8080:8080 means 8080 on the host (left-hand) and 8080 in the container (right-hand). If you wanted to bind port 8080 in the container to port 5000 in the host, you'd do -p 5000:8080
 
 `tar -xvzf fragments-0.0.1.tgz` to unpack tarball
+
+- a Dockerfile is for building a Docker Image, a docker-compose.yml file is for running Docker Containers

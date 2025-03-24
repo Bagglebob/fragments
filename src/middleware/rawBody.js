@@ -11,11 +11,7 @@ module.exports = () =>
       // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
       // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
       // check that req.body is buffer
-      if (Buffer.isBuffer(req.body)) {
-        const { type } = contentType.parse(req);
-        return Fragment.isSupportedType(type);
-      } else {
-        return {};
-      }
+      const { type } = contentType.parse(req);
+      return Fragment.isSupportedType(type);
     },
   });
