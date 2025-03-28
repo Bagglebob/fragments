@@ -13,7 +13,7 @@ const { authenticate } = require('../auth');
 
 // Import the createSuccessResponse function from response.js
 const { createSuccessResponse } = require('../response');
-
+const { hostname } = require('os');
 /**
  * Expose all of our API routes on /v1/* to include an API version.
  * Protect them all with middleware so you have to be authenticated
@@ -32,6 +32,7 @@ router.get('/', (req, res) => {
     author: author,
     githubUrl: 'https://github.com/Bagglebob/fragments',
     version: version,
+    hostname: hostname(),
   };
   // Send a 200 'OK' response
   res.status(200).json(createSuccessResponse(data));
