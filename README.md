@@ -72,3 +72,9 @@ Installed middleware: cors, express, helmet, compression
 
 - the **local-aws-setup.sh** script only sets the environment variables for running aws services. And these services' environment variables are set within their individual containers
 - I need to set the environment variables `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_SESSION_TOKEN` for my fragments container so that it can access the aws services containers such as s3 and dynamodb which are configured and run using the **local-aws-setup.sh** script
+
+### NPM Version
+
+1. 1.x.x is a MAJOR change
+2. x.1.x is a MINOR change
+3. x.x.1 is a PATCH change
