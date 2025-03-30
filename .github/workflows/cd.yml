@@ -82,13 +82,14 @@ jobs:
           # Necessary ENV variables,
           # use GitHub Secrets for values that are secrets/sensitive
           environment-variables: |
-            LOG_LEVEL=debug
+            LOG_LEVEL=info
             NODE_ENV=production
             PORT=80
             AWS_COGNITO_POOL_ID=us-east-1_o2iCAizYv
             AWS_COGNITO_CLIENT_ID=3i5hpbdavqgd8qscglas0p756n
             AWS_REGION=us-east-1
-            API_URL=fragments-lb-2046229762.us-east-1.elb.amazonaws.com
+            API_URL=https://fragments.farshad2.mystudentproject.ca/
+            AWS_S3_BUCKET_NAME=farshad2-fragments
       # Step to deploy ECS task definition
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2

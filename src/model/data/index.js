@@ -1,3 +1,7 @@
+// src/model/data/index.js
+
+// module.exports = require('./memory');
 // Code to pick the appropriate back-end data strategy
-// We currently only have 1, our memory strategy, but we'll add ones for AWS later
-module.exports = require('./memory');
+// If the environment sets an AWS Region, we'll use AWS S3 or DynamoDB
+module.exports = process.env.AWS_REGION ? require('./aws') : require('./memory');
+

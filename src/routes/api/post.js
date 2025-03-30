@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
     res
       .status(201)
       .setHeader('Location', location)
-      .setHeader('Content-Type', type)
+      .setHeader('Content-Type', fragment.mimeType)
       .setHeader('Content-Length', buffsize)
       // .send(fragment);
       .json(

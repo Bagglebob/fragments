@@ -18,6 +18,9 @@ router.get('/fragments/:id.:ext', require('./getConvertedData'));
 // Get a specific fragment by ID
 router.get('/fragments/:id', require('./getFragById'));
 
+// Get a specific fragment by ID
+router.delete('/fragments/:id', require('./deleteFragById'));
+
 // Get a fragment's metadata by ID
 router.get('/fragments/:id/info', require('./getMetadataById'));
 

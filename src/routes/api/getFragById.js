@@ -24,11 +24,11 @@ module.exports = async (req, res) => {
     // );
     // Code ABOVE enveloped the data in a json object
 
-    res.setHeader('Content-Type', fragment.type);
+    res.setHeader('Content-Type', fragment.mimeType);
     res.setHeader('Content-Length', Buffer.byteLength(fragment.data));
     res.setHeader('Location', location);
     logger.info("IN GET FRAG BY ID ROUTE")
-    logger.info(res.getHeader('Content-Type'));
+    // logger.info(res.getHeader('Content-Type'));
     const re = /^text\/[a-zA-Z]+$/;
     re.test(fragment.type)
       ? res.status(200).send(fragment.data.toString())

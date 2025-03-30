@@ -54,3 +54,21 @@ Installed middleware: cors, express, helmet, compression
 `tar -xvzf fragments-0.0.1.tgz` to unpack tarball
 
 - a Dockerfile is for building a Docker Image, a docker-compose.yml file is for running Docker Containers
+
+- using `--save`
+
+  - Save installed packages to a package.json file as dependencies.
+  - https://docs.npmjs.com/cli/v11/commands/npm-install#save
+
+## The code BELOW was added to docker-compose.yml to run tests
+
+````
+      # Add these credentials for LocalStack mock (these are in local-aws-setup.sh file)
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_SESSION_TOKEN=test
+      ```
+````
+
+- the **local-aws-setup.sh** script only sets the environment variables for running aws services. And these services' environment variables are set within their individual containers
+- I need to set the environment variables `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_SESSION_TOKEN` for my fragments container so that it can access the aws services containers such as s3 and dynamodb which are configured and run using the **local-aws-setup.sh** script
