@@ -78,3 +78,9 @@ Installed middleware: cors, express, helmet, compression
 1. 1.x.x is a MAJOR change
 2. x.1.x is a MINOR change
 3. x.x.1 is a PATCH change
+
+## Data Split (DynamoDB and S3)
+
+a fragment will be split across AWS S3 (data) and Amazon DynamoDB (metadata).
+
+For DynamoDB, ownerId as our partition key, and the fragment id as our sort key
