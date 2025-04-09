@@ -8,7 +8,7 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
 module.exports = async (req, res) => {
   // Load environment variables for API_URL
   logger.info('POST::Received request at POST /v1/fragments');
-  logger.info(`DEBUG: req.body type=${typeof req.body}, value=${JSON.stringify(req.body)}`);
+  logger.info(`DEBUG: req.body type=${typeof req.body}, value=${JSON.stringify(req.body).length < 100 ? JSON.stringify(req.body) : "buffer too long"}`);
 
   try {
     const API_URL = process.env.API_URL || req.headers.host;
@@ -23,18 +23,23 @@ module.exports = async (req, res) => {
       return res.status(415).json({ error: 'Unsupported media type' });
     }
 
-    // Read the posted fragment text from the request body
-    // const fragmentData = Buffer.from(req.body); // -> this was for plain text only
+    // Read the posted fragment text from the request body    
     let fragmentData;
+    // completely pointless block of code... I need to do something about checking for json
     if (type === 'application/json') {
-      fragmentData = req.body; // Store as an object, don't stringify
+      // fragmentData = req.body; // Store as an object, don't stringify
+      // check if valid json
+      if (JSON.parse(req.body.toString())) {
+        fragmentData = req.body;
+      }
     } else {
       if (Buffer.isBuffer(req.body)) {
         fragmentData = req.body;
-      } else {
-        if (Object.keys(req.body).length !== 0)
-          fragmentData = Buffer.from(req.body);
       }
+      // else {
+      //   if (Object.keys(req.body).length !== 0)
+      //     fragmentData = Buffer.from(req.body);
+      // }
     }
 
     // calculate the size of the fragmentText
@@ -50,17 +55,10 @@ module.exports = async (req, res) => {
     const fragment = new Fragment({ ownerId: ownerId, type: type, size: buffsize });
     await fragment.save();
 
-    let data;
-    if (type === 'application/json') {
-      // Convert object to string. Then call setData to convert to buffer and store.
-      data = JSON.stringify(req.body);
-    } else {
-      data = req.body;
-    }
-    await fragment.setData(data);
+    await fragment.setData(fragmentData);
 
     const location = `${API_URL}/v1/fragments/${fragment.id}`;
-
+    logger.info('Content-Type', fragment.mimeType)
     res
       .status(201)
       .setHeader('Location', location)
@@ -77,6 +75,6 @@ module.exports = async (req, res) => {
   } catch (err) {
     logger.error({ err }, `Error processing POST /fragments`);
     // console.error('Error processing POST /fragments:', err);
-    res.status(500).json(createErrorResponse(500, 'Internal server error'));
+    return res.status(500).json(createErrorResponse(500, 'Internal server error'));
   }
 };

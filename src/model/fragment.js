@@ -13,7 +13,6 @@ const {
   listFragments,
   deleteFragment,
 } = require('./data');
-const logger = require('../logger');
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
@@ -178,8 +177,8 @@ class Fragment {
     // TODO
     const { type } = contentType.parse(value);
     const re = /^text\/[a-zA-Z]+$/;
-    let res = re.test(type) || type === 'application/json';
-    logger.info({ res }, "Supported type or not:");
+    const reImg = /^(image\/(png|jpeg|gif))$/;
+    let res = re.test(type) || reImg.test(type) || type === 'application/json';
     return res;
   }
 }

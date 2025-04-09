@@ -32,9 +32,10 @@ app.use(cors());
 // Use gzip/deflate compression middleware
 app.use(compression());
 
-// **Add middleware to parse incoming plain text bodies**
-app.use(express.json());
-app.use(express.text());
+// THE BANE OF MY ISSUES :(
+// app.use(express.json());
+// app.use(express.text());
+// LEAVING IT UP SO I NEVER FORGET
 
 // Set up our passport authentication middleware
 passport.use(authenticate.strategy());

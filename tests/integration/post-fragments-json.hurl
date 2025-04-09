@@ -23,3 +23,11 @@ jsonpath "$.name" == "John"
 jsonpath "$.age" == 30
 jsonpath "$.car" == null
 
+
+# Makes sure that you can't just enter text as json. Must be object
+POST http://localhost:8080/v1/fragments
+Content-Type: application/json
+[BasicAuth]
+user1@email.com:password1
+`asdasdasd`
+HTTP/1.1 500

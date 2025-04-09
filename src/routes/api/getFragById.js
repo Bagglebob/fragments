@@ -16,26 +16,31 @@ module.exports = async (req, res) => {
     const fragment = await Fragment.byId(ownerId, fragId);
     fragment.data = await fragment.getData();
     const location = `${API_URL}/v1/fragments/${fragment.id}`;
-    // res.status(200).json(
-    //   createSuccessResponse({
-    //     // status: 'ok',
-    //     fragment: fragment.toString(),
-    //   })
-    // );
-    // Code ABOVE enveloped the data in a json object
 
     res.setHeader('Content-Type', fragment.mimeType);
     res.setHeader('Content-Length', Buffer.byteLength(fragment.data));
     res.setHeader('Location', location);
     logger.info("IN GET FRAG BY ID ROUTE")
     // logger.info(res.getHeader('Content-Type'));
-    const re = /^text\/[a-zA-Z]+$/;
-    re.test(fragment.type)
-      ? res.status(200).send(fragment.data.toString())
-      : // needs to parse because it is a buffer, which is converted to a string,
-      // which then needs to be converted to a json object
+
+    // If the fragment is a text-based type (e.g., JSON, text, markdown)
+    const isText = /^text\/[a-zA-Z]+$/.test(fragment.mimeType);
+
+    // If it's an image or other binary content
+    const isImage = /^image\//.test(fragment.mimeType);
+
+    if (isText) {
+      // Send text-based content as a string
+      res.status(200).send(fragment.data.toString());
+    } else if (isImage) {
+      // For image or binary data, send the data as-is (raw binary)
+      res.status(200).send(fragment.data);
+    } else {
+      // For any other content type (e.g., application/json)
       res.status(200).json(JSON.parse(fragment.data.toString()));
+    }
   } catch (err) {
-    res.status(404).json(createErrorResponse(404, err));
+    logger.error(`Error in GET /v1/fragments/:id: ${err.message}`);
+    return res.status(404).json(createErrorResponse(404, err));
   }
 };
