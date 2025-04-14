@@ -41,4 +41,28 @@ describe('POST /v1/fragments', () => {
     expect(resBody.fragment).toHaveProperty('size');
     expect(res.header).toHaveProperty('location');
   });
+
+
+  // POST with unsupported type
+  test('POST: unsupported type (text/yaml)', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/yaml') // send plain text
+      .send('This is a plain text fragment'); // data
+
+    expect(res.status).toBe(415);
+  });
+
+
+  // POST with JSON
+  test('POST: with JSON type', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'application/json') // send plain text
+      .send({ "name": "John", "age": 30, "car": null }); // data
+
+    expect(res.status).toBe(201);
+  });
 });

@@ -4,6 +4,7 @@ const { Fragment } = require('../../model/fragment');
 const contentType = require('content-type');
 const logger = require('../../logger');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
+const yaml = require('js-yaml');
 
 module.exports = async (req, res) => {
   // Load environment variables for API_URL
@@ -25,26 +26,28 @@ module.exports = async (req, res) => {
 
     // Read the posted fragment text from the request body    
     let fragmentData;
-    // completely pointless block of code... I need to do something about checking for json
     if (type === 'application/json') {
-      // fragmentData = req.body; // Store as an object, don't stringify
       // check if valid json
       if (JSON.parse(req.body.toString())) {
         fragmentData = req.body;
       }
-    } else {
+    }
+    else if (type === 'application/yaml') {
+      if (yaml.load(req.body.toString())) {
+        fragmentData = req.body;
+      }
+    }
+    else {
       if (Buffer.isBuffer(req.body)) {
         fragmentData = req.body;
       }
-      // else {
-      //   if (Object.keys(req.body).length !== 0)
-      //     fragmentData = Buffer.from(req.body);
-      // }
     }
+
+    const isTextType = ['application/json', 'application/yaml'].includes(type);
 
     // calculate the size of the fragmentText
     const buffsize = Buffer.byteLength(
-      type === 'application/json' ? JSON.stringify(fragmentData) : fragmentData
+      isTextType ? JSON.stringify(fragmentData) : fragmentData
     );
 
     // If fragmentText is missing, return an error

@@ -1,7 +1,6 @@
 // src/routes/api/updateFragData.js
 // localhost:8080/v1/fragments PUT endpoint
 const { Fragment } = require('../../model/fragment');
-const contentType = require('content-type');
 const logger = require('../../logger');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 
@@ -27,7 +26,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    ({ type } = contentType.parse(req));
+    type = req.headers['content-type'];
+    logger.info({ type }, "Content-Type from headers:");
 
     // throw error if does not match the existing fragment's type
     if (fragment.mimeType !== type) {
@@ -37,7 +37,10 @@ module.exports = async (req, res) => {
 
     // Read the posted fragment text from the request body    
     if (fragment.mimeType === 'application/json') {
-      fragmentData = req.body; // Store as an object, don't stringify
+      // check if valid json
+      if (JSON.parse(req.body.toString())) {
+        fragmentData = req.body;
+      }
     } else {
       if (Buffer.isBuffer(req.body)) {
         fragmentData = req.body;

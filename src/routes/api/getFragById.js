@@ -29,13 +29,14 @@ module.exports = async (req, res) => {
     // If it's an image or other binary content
     const isImage = /^image\//.test(fragment.mimeType);
 
-    if (isText) {
+    if (isText || fragment.mimeType === "application/yaml") {
       // Send text-based content as a string
       res.status(200).send(fragment.data.toString());
     } else if (isImage) {
       // For image or binary data, send the data as-is (raw binary)
       res.status(200).send(fragment.data);
-    } else {
+    }
+    else {
       // For any other content type (e.g., application/json)
       res.status(200).json(JSON.parse(fragment.data.toString()));
     }

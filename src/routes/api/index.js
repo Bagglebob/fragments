@@ -21,7 +21,7 @@ router.get('/fragments/:id', require('./getFragById'));
 // Get a specific fragment by ID
 router.delete('/fragments/:id', require('./deleteFragById'));
 
-// Get a specific fragment by ID
+// Update a specific fragment by ID
 router.put('/fragments/:id', rawBody(), require('./updateFragData'));
 
 // Get a fragment's metadata by ID

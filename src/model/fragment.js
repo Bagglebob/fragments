@@ -176,9 +176,10 @@ class Fragment {
   static isSupportedType(value) {
     // TODO
     const { type } = contentType.parse(value);
-    const re = /^text\/[a-zA-Z]+$/;
-    const reImg = /^(image\/(png|jpeg|gif))$/;
-    let res = re.test(type) || reImg.test(type) || type === 'application/json';
+    // const re = /^text\/[a-zA-Z]+$/;
+    const re = /^(text\/(plain|markdown|html|csv))$/;
+    const reImg = /^(image\/(png|jpeg|gif|webp|avif))$/;
+    let res = re.test(type) || reImg.test(type) || type === 'application/json' || type === 'application/yaml';
     return res;
   }
 }
