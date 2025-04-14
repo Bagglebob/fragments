@@ -178,7 +178,7 @@ class Fragment {
     const { type } = contentType.parse(value);
     // const re = /^text\/[a-zA-Z]+$/;
     const re = /^(text\/(plain|markdown|html|csv))$/;
-    const reImg = /^(image\/(png|jpeg|gif|webp|avif))$/;
+    const reImg = /^(image\/(png|jpg|gif|webp|avif))$/;
     let res = re.test(type) || reImg.test(type) || type === 'application/json' || type === 'application/yaml';
     return res;
   }
