@@ -85,7 +85,7 @@ a fragment will be split across AWS S3 (data) and Amazon DynamoDB (metadata).
 
 For DynamoDB, ownerId as our partition key, and the fragment id as our sort key
 
-## Outcome
+## Outcomes
 - Used a variety of thinking skills to anticipate and solve problems
 - Versioned source code using git and GitHub
 - Analyzed, evaluated, and applied relevant information from a variety of sources, in particular: official technical documentation
