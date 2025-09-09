@@ -1,6 +1,6 @@
 # fragments
 
-For DPS955 Lab1
+A microservice deployed on AWS
 
 # npm scripts
 
@@ -84,3 +84,18 @@ Installed middleware: cors, express, helmet, compression
 a fragment will be split across AWS S3 (data) and Amazon DynamoDB (metadata).
 
 For DynamoDB, ownerId as our partition key, and the fragment id as our sort key
+
+## Outcome
+- Used a variety of thinking skills to anticipate and solve problems
+- Versioned source code using git and GitHub
+- Analyzed, evaluated, and applied relevant information from a variety of sources, in particular: official technical documentation
+- Authenticated and Authorized users securely
+- Developed, debugged, and deployed apps in cloud environments
+- Understood how to develop, debug, and run software locally, in GitHub Actions, and in the cloud using containers
+- Worked with container registries and repositories
+- Applied best practices for creating secure, optimized containers
+- Script installations and automation using common Linux commands
+- Implemented data storage using managed cloud services
+- Combined a mix of server-based and serverless architectures
+- Developed software using cloud APIs and SDKs
+- Developed automatic integration and deployment workflows (CI/CD)
