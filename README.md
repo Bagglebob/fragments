@@ -6,7 +6,7 @@ Fragments is a cloud-based microservice designed to store, retrieve, and manage 
 
 **CRUD Operations**: Create, read, update, and delete fragments from both .
 
-**Format Conversion**: Retrieve fragments in different formats without increasing storage costs (e.g., Markdown → HTML, JPEG → PNG).
+**Format Conversion**: Retrieve fragments in different formats and convert them (e.g., Markdown → HTML, JPEG → PNG).
 
 ## Flexible Content Types:
 
