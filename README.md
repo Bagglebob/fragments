@@ -1,6 +1,29 @@
-# fragments
+# Fragments
 
-A microservice deployed on AWS
+Fragments is a cloud-based microservice designed to store, retrieve, and manage small pieces of text, JSON, YAML, and images for a scalable, multi-format system. It was developed for a fictional Canadian manufacturing company in mind, to unify and digitize internal reporting systems, IoT devices, and automated workflows.
+
+# Features
+
+**CRUD Operations**: Create, read, update, and delete fragments from both .
+
+**Format Conversion**: Retrieve fragments in different formats without increasing storage costs (e.g., Markdown → HTML, JPEG → PNG).
+
+## Flexible Content Types:
+
+Text: text/plain, text/markdown, text/html, text/csv
+
+Structured data: application/json, application/yaml
+
+Images: image/png, image/jpeg, image/webp, image/avif, image/gif
+
+**Fragment Metadata**: Each fragment stores information about size, type, owner, and creation/modification timestamps.
+
+**Secure Access**: All operations require authentication via Basic Auth or JWT. Data is isolated per user.
+
+**Scalable Architecture**: Designed to handle large volumes of data and users.
+
+**Automatic Deployment**: CI/CD pipelines for building, testing, and deploying on AWS.
+
 
 # npm scripts
 
